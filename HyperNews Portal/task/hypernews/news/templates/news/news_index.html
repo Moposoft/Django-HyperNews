@@ -6,16 +6,26 @@
 </head>
 <body>
 <h2>Hyper news</h2>
-{% for i in list %}
-    <h4>{{i.date}}</h4>
+<form action="/news" method="get">
+    {% csrf_token %}
+    <label>Search news: </label>
+    <input name="q">
+    <button type="submit">Search</button>
+    <br>
+</form>
+{% regroup list|dictsortreversed:"created" by created|slice:":-9" as news_list %}
+{% for i in news_list %}
+    <h4>{{i.grouper}}</h4>
     <ul>
-        {% for j in i.news %}
+        {% for j in i.list %}
         <li>
             <a target="_blank" href="/news/{{j.link}}/">{{j.title}}</a>
         </li>
         {% endfor %}
     </ul>
 {% endfor %}
+<br>
 <a target="_blank" href="/news/create/">Create News</a>
+<br>
 </body>
 </html>

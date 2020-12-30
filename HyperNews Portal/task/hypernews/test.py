@@ -11,5 +11,4 @@ text = 'text'
 title = 'title'
 news.append({'created': created, 'text': text, 'title': title, 'link': link})
 print(news)
-with open("../news.json", "w") as f:
-    json.dump(news, f)
+print(news[0]['title'])

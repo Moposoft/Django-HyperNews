@@ -34,8 +34,11 @@ class NewsIndexView(View):
         with open(settings.NEWS_JSON_PATH, "r") as f:
             news = json.load(f)
         sorted(news, key=lambda x: datetime.strptime(x['created'], '%Y-%m-%d %H:%M:%S'), reverse=False)
-        news_list = [{"date": x, "news": [{'title': y['title'], 'link': y['link']} for y in news if y["created"].split()[0] == x]}
-                     for x in set([x["created"].split()[0] for x in news])]
+        query = request.GET.get('q')
+        if query is None:
+            news_list = news
+        else:
+            news_list = [x for x in news if query in x['title']]
         context = {
             "list": news_list
         }

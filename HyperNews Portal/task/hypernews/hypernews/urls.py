@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from news.views import IndexView, NewsView, NewsIndexView, CreateNewsView
+from django.views.generic import RedirectView
+from news.views import NewsView, NewsIndexView, CreateNewsView
 
 urlpatterns = [
-    path('', IndexView.as_view()),
+    path('', RedirectView.as_view(url='news/')),
     path('news/', NewsIndexView.as_view()),
     path('news/<int:link>/', NewsView.as_view()),
     path('news/create/', CreateNewsView.as_view()),
